@@ -1,0 +1,26 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'io.ratpack:ratpack-gradle:1.4.0-rc-1'
+    classpath 'com.bmuschko:gradle-docker-plugin:3.0.1'
+  }
+}
+
+apply plugin: 'io.ratpack.ratpack-groovy'
+apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: 'com.bmuschko.docker-java-application'
+
+version = "1.0.0"
+
+repositories {
+  jcenter()
+}
+
+docker {
+  javaApplication {
+    maintainer = 'Dan Woods "daniel.p.woods@gmail.com"'
+    port = 5050
+  }
+}

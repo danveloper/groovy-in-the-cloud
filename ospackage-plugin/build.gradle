@@ -1,0 +1,37 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath 'io.ratpack:ratpack-gradle:1.4.0-rc-1'
+    classpath 'gradle.plugin.com.netflix.nebula:gradle-ospackage-plugin:3.6.1'
+  }
+}
+
+apply plugin: 'io.ratpack.ratpack-groovy'
+apply plugin: 'nebula.ospackage'
+
+version = "1.0.0"
+
+repositories {
+  jcenter()
+}
+
+ospackage {
+  packageName = "myapp"
+  release '3'
+  into "/opt/myapp"
+  from "${project.buildDir}/install/${project.applicationName}"
+  from("osfiles") { into "/" }
+}
+
+buildDeb {
+  dependsOn installDist
+  //requires("nginx")
+  //requires("mysql-client")
+  preInstall file("scripts/preInstall.sh")
+  postInstall file("scripts/postInstall.sh")
+}
